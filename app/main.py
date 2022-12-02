@@ -1,7 +1,7 @@
 from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
-from geospatial_processing.geopython import get_nearest_repair_stand
+from geospatial_processing.geopython import get_nearest_repair_stand_json
 
 app = FastAPI()
 
@@ -24,5 +24,5 @@ def update_item(item_id: int, item: Item):
 
 @app.get("/repair-stand")
 def get_repair_stand(x: Union[float,None], y: Union[float, None]):
-    my_nearest = get_nearest_repair_stand(x, y)
+    my_nearest = get_nearest_repair_stand_json(x, y)
     return {"data": my_nearest}

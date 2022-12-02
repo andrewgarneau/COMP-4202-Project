@@ -1,1 +1,4 @@
-./app/geospatial_processing/sources/*
+/app/geospatial_processing/sources/*
+/app/cache/*
+/app/geospatial_processing/__pycache__/*
+/app/geospatial_processing/cache/*
