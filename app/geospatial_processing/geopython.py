@@ -54,8 +54,10 @@ def get_nearest_repair_stand(x: float, y: float):
     return nearest_rs
 
 def get_route_to_nearest_repair_stand(x: float, y: float):
+    print("in get_route_to_nearest_repair_stand")
     origin = conv_longlat_to_pt(x, y, "origin").geometry.values[0]
-    destination = get_nearest_repair_stand(x, y).geometry.values[0]
+    destData = get_nearest_repair_stand(x, y)
+    destination = destData.geometry.values[0]
 
     origin_xy = (origin.y, origin.x)
     destination_xy = (destination.y, destination.x)
@@ -68,14 +70,6 @@ def get_route_to_nearest_repair_stand(x: float, y: float):
     shortest_path_graph:nx.MultiDiGraph = graph.subgraph(route)
 
     output_gdf = gnx.graph_edges_to_gdf(shortest_path_graph)
-
-    print("route")
-    print(route)
-
-    print("subgraph")
-    print(output_gdf.to_json())
-
-    print(origin)
 
     origin_geo_json = {
         "type": "feature",
@@ -96,9 +90,11 @@ def get_route_to_nearest_repair_stand(x: float, y: float):
         },
         "properties": {
             "name": "Destination"
-        }
+        },
+        "data": destData.to_json()
     }
 
+    print("Returning value from get_route_to-nearest_repair_stand")
     return {
         "start": origin_geo_json,
         "end": destination_geo_json,
@@ -113,7 +109,7 @@ def get_route_to_nearest_repair_stand(x: float, y: float):
 
 repair_stands:gpd.GeoDataFrame = gpd.read_file('geospatial_processing/sources/Bike_Repair_Stations/Bike_Repair_Stations.shp')
 
-place_name = "Nepean, Ottawa, Canada"
+place_name = "Ottawa, Ontario, Canada"
 graph = ox.graph_from_place(place_name)
 
 res = get_route_to_nearest_repair_stand(-75.76992997643495, 45.34365181227424)
