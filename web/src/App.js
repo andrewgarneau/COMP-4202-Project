@@ -36,10 +36,12 @@ function App() {
   const [popupInfo, setPopupInfo] = useState(false);
 
   const onRequestXChange = event => {
+    setOrigin({x:event.target.value, y:origin.y})
     setRequestX(event.target.value);
   };
 
   const onRequestYChange = event => {
+    setOrigin({x:origin.x, y:event.target.value})
     setRequestY(event.target.value);
   };
 
